@@ -1,6 +1,6 @@
-# Armando (The Gardener) — Windows PowerShell Installer
-# Symlinks agents and commands into Claude Code's global directories
-# and adds the 'armando' command to your PowerShell profile.
+# Armando (The Gardener) - Windows PowerShell Installer
+# Symlinks agents and commands into Claude Code global directories
+# and adds the armando command to your PowerShell profile.
 #
 # Run as Administrator (symlinks require elevated permissions on Windows):
 #   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
@@ -62,23 +62,13 @@ if (-not (Test-Path $PROFILE)) {
 $profileContent = Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue
 if ($profileContent -match "function armando") {
     Write-Host ""
-    Write-Host "armando command already exists in PowerShell profile — skipping." -ForegroundColor Yellow
+    Write-Host "armando command already exists in PowerShell profile - skipping." -ForegroundColor Yellow
 } else {
-    $armandoFunc = @'
-
-# Armando (The Gardener) — AI development team
-function armando {
-    # Activate Python venv if present
-    if (Test-Path ".venv\Scripts\Activate.ps1") {
-        & ".venv\Scripts\Activate.ps1"
-    }
-    claude --dangerously-skip-permissions --agent thorn
-}
-'@
-    Add-Content -Path $PROFILE -Value $armandoFunc
+    $funcText = "`n# Armando (The Gardener) - AI development team`nfunction armando {`n    if (Test-Path `".venv\Scripts\Activate.ps1`") {`n        & `".venv\Scripts\Activate.ps1`"`n    }`n    claude --dangerously-skip-permissions --agent thorn`n}`n"
+    Add-Content -Path $PROFILE -Value $funcText
     Write-Host ""
     Write-Host "Added armando command to PowerShell profile: $PROFILE" -ForegroundColor Green
 }
 
 Write-Host ""
-Write-Host 'Done. Restart PowerShell, then navigate to any project and type "armando" to start.' -ForegroundColor Cyan
+Write-Host "Done. Restart PowerShell, then navigate to any project and type armando to start." -ForegroundColor Cyan

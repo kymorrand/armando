@@ -64,7 +64,40 @@ if ($profileContent -match "function armando") {
     Write-Host ""
     Write-Host "armando command already exists in PowerShell profile - skipping." -ForegroundColor Yellow
 } else {
-    $funcText = "`n# Armando (The Gardener) - AI development team`nfunction armando {`n    if (Test-Path `".venv\Scripts\Activate.ps1`") {`n        & `".venv\Scripts\Activate.ps1`"`n    }`n    claude --dangerously-skip-permissions --agent thorn`n}`n"
+    $funcText = @"
+
+# Armando (The Gardener) - AI development team
+function armando {
+    # Pull latest agent defs and handoffs before starting
+    `$armandoRepo = Join-Path `$HOME "armando"
+    if (Test-Path (Join-Path `$armandoRepo ".git")) {
+        Push-Location `$armandoRepo
+        git pull --quiet 2>`$null
+        Pop-Location
+    }
+
+    # Activate venv if present
+    if (Test-Path ".venv\Scripts\Activate.ps1") {
+        & ".venv\Scripts\Activate.ps1"
+    }
+
+    # Launch Thorn
+    claude --dangerously-skip-permissions --agent thorn
+
+    # After session ends: commit and push any handoffs or changes
+    if (Test-Path (Join-Path `$armandoRepo ".git")) {
+        Push-Location `$armandoRepo
+        git add -A 2>`$null
+        `$hasChanges = git diff --cached --quiet 2>`$null; `$LASTEXITCODE -ne 0
+        if (`$hasChanges) {
+            `$msg = "Session update from `$(`$env:COMPUTERNAME) - `$(Get-Date -Format 'yyyy-MM-dd_HHmm')"
+            git commit -m `$msg --quiet 2>`$null
+            git push --quiet 2>`$null
+        }
+        Pop-Location
+    }
+}
+"@
     Add-Content -Path $PROFILE -Value $funcText
     Write-Host ""
     Write-Host "Added armando command to PowerShell profile: $PROFILE" -ForegroundColor Green

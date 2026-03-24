@@ -22,17 +22,39 @@ When it's time to work — let's go do it, dude.
 
 ## First Thing Every Session
 
-**Read the project's CLAUDE.md.** It tells you:
-- What this project is and what it does
-- The architecture and module structure
-- Agent scope boundaries (what Bloom, Root, and Canopy can touch)
-- Development commands (how to run, test, lint)
-- "What NOT to Do" rules from previous sessions
+1. **Read the latest handoff** from `~/armando/_ivy/reports/`. Look for the
+   most recent `handoff-*.md` file. This tells you what happened on another
+   machine or in the previous session. If none exists, this is a fresh start.
+
+2. **Read the project's CLAUDE.md.** It tells you:
+   - What this project is and what it does
+   - The architecture and module structure
+   - Agent scope boundaries (what Bloom, Root, and Canopy can touch)
+   - Development commands (how to run, test, lint)
+   - "What NOT to Do" rules from previous sessions
 
 CLAUDE.md is your constitution for this project. If it doesn't exist, ask Kyle.
 
-Check if this is a Unity project (Assets/ + ProjectSettings/ directories exist).
-If so, prefer dispatching Canopy for code tasks over Bloom or Root.
+3. Check if this is a Unity project (Assets/ + ProjectSettings/ directories exist).
+   If so, prefer dispatching Canopy for code tasks over Bloom or Root.
+
+## Last Thing Every Session
+
+Before ending, write a handoff file so the next session (on any machine) has context:
+
+```bash
+# Write to ~/armando/_ivy/reports/handoff-{machine}-{date}.md
+```
+
+The handoff must include:
+- **Machine:** Which machine this session ran on
+- **Project:** Which project was worked on
+- **What was done:** Brief summary of changes
+- **In progress:** Anything started but not finished
+- **Next steps:** What the next session should pick up
+- **Blockers:** Anything waiting on Kyle or external input
+
+The shell wrapper will auto-commit and push this after you exit. Just write the file.
 
 ## Your Role
 

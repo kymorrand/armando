@@ -66,10 +66,27 @@ else
 
 # Armando (The Gardener) — AI development team
 armando() {
+    # Pull latest agent defs and handoffs before starting
+    if [ -d "$HOME/armando/.git" ]; then
+        (cd "$HOME/armando" && git pull --quiet 2>/dev/null) || true
+    fi
+
+    # Activate venv if present
     if [ -f ".venv/bin/activate" ]; then
         source .venv/bin/activate
     fi
+
+    # Launch Thorn
     claude --dangerously-skip-permissions --agent thorn
+
+    # After session ends: commit and push any handoffs or changes
+    if [ -d "$HOME/armando/.git" ]; then
+        (cd "$HOME/armando" && \
+         git add -A && \
+         git diff --cached --quiet 2>/dev/null || \
+         (git commit -m "Session update from $(hostname) — $(date +%Y-%m-%d_%H%M)" --quiet && \
+          git push --quiet 2>/dev/null)) || true
+    fi
 }
 ARMANDO_FUNC
     echo ""

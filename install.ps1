@@ -81,4 +81,4 @@ function armando {
 }
 
 Write-Host ""
-Write-Host "Done. Restart PowerShell, then navigate to any project and type 'armando' to start." -ForegroundColor Cyan
+Write-Host 'Done. Restart PowerShell, then navigate to any project and type "armando" to start.' -ForegroundColor Cyan

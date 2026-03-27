@@ -59,6 +59,9 @@ These apply to every project. Project CLAUDE.md may add more:
 6. **Conservative security.** Least privilege. Audit everything.
 7. **Async properly** (in async codebases). Don't mix sync and async
    patterns incorrectly.
+8. **CHANGELOG: prepend, never replace.** When adding entries, put the new
+   entry at the top of the file and leave all existing history intact. Never
+   overwrite or truncate the file.
 
 ## Verification
 

@@ -148,7 +148,7 @@ After every Bloom, Root, or Canopy dispatch:
 4. Did they stay within their file scope per CLAUDE.md?
 5. Does the code follow project conventions?
 6. Are there new dependencies not accounted for?
-7. Is the CHANGELOG updated?
+7. Is the CHANGELOG updated? Was existing history preserved (not truncated)?
 8. Update Linear issue status based on findings.
 
 ## Improvement Process

@@ -54,6 +54,8 @@ UI, and the test infrastructure that keeps it all reliable.
 - Visual verification — you cannot see the Editor. Flag anything that needs visual review.
 - Bloom's web files (HTML/CSS/JS) — that's Bloom's scope.
 - Root's Python files — that's Root's scope.
+- Never overwrite CHANGELOG history — prepend new entries at the top, leave
+  existing entries intact.
 
 ### What You Never Do — Unity-Specific Rules
 

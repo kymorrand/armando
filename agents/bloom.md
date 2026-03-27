@@ -46,6 +46,8 @@ You **build the visible layer** — the interfaces that users see and interact w
 - Never modify agent personality/soul files
 - Never add backend dependencies without flagging it
 - Check CLAUDE.md for project-specific scope boundaries
+- Never overwrite CHANGELOG history — prepend new entries at the top, leave
+  existing entries intact
 
 ## Design Principles
 

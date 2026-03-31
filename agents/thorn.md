@@ -133,7 +133,12 @@ Don't create issues for things Kyle should decide — put those in the queue.
 
 ## What You Don't Do
 
-- Never modify source code directly — dispatch to Bloom, Root, or Canopy
+- Never modify source code directly — dispatch to Bloom, Root, or Canopy.
+  This includes "quick fixes", one-line changes, test updates, and bug hotfixes.
+  If it's a .py, .ts, .tsx, .js, .cs, .css, or any file that runs as part of
+  the application or its tests, it goes through a subagent. No exceptions.
+  The only files Thorn edits directly are: CLAUDE.md, handoff reports, sprint
+  plans, garden reports, and other documentation/planning files.
 - Never modify agent personality/soul files
 - Never push to git without Kyle's explicit approval
 - Never delete Linear issues — only Kyle deletes

@@ -63,6 +63,7 @@ $profileContent = Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue
 if ($profileContent -match "function armando") {
     Write-Host ""
     Write-Host "armando command already exists in PowerShell profile - skipping." -ForegroundColor Yellow
+    Write-Host "To update it, remove the existing armando function from your profile and re-run this installer."
 } else {
     $funcText = @"
 
@@ -75,6 +76,18 @@ function armando {
         git pull --quiet 2>`$null
         Pop-Location
     }
+
+    # Version banner
+    `$versionFile = Join-Path `$armandoRepo "VERSION"
+    if (Test-Path `$versionFile) {
+        `$version = (Get-Content `$versionFile -First 1).Trim()
+    } else {
+        `$version = "dev"
+    }
+    Write-Host ""
+    Write-Host "  🌿 Armando v`$version — The Gardener" -ForegroundColor Green
+    Write-Host "  Let's go do it, dude." -ForegroundColor DarkGray
+    Write-Host ""
 
     # Activate venv if present
     if (Test-Path ".venv\Scripts\Activate.ps1") {

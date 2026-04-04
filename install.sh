@@ -60,6 +60,7 @@ fi
 if grep -q "armando()" "$PROFILE" 2>/dev/null; then
     echo ""
     echo "armando command already exists in $PROFILE — skipping."
+    echo "To update it, remove the existing armando() function from $PROFILE and re-run this installer."
 else
     echo "" >> "$PROFILE"
     cat >> "$PROFILE" << 'ARMANDO_FUNC'
@@ -70,6 +71,13 @@ armando() {
     if [ -d "$HOME/armando/.git" ]; then
         (cd "$HOME/armando" && git pull --quiet 2>/dev/null) || true
     fi
+
+    # Version banner
+    VERSION=$(cat "$HOME/armando/VERSION" 2>/dev/null || echo "dev")
+    echo ""
+    echo "  🌿 Armando v${VERSION} — The Gardener"
+    echo "  Let's go do it, dude."
+    echo ""
 
     # Activate venv if present
     if [ -f ".venv/bin/activate" ]; then

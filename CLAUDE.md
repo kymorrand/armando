@@ -6,7 +6,7 @@ shore. Engineering discipline meets cultivation patience.
 
 **Owner:** Kyle Morrand
 **Organization:** Mirror Factory, Inc.
-**Version:** 0.3.0
+**Version:** 0.3.1
 
 ## Agents
 
@@ -136,10 +136,10 @@ Claude Code instance. Git is the sync layer.
 
 ## Horizon Missions
 
-A Horizon mission lives at `/home/kyle/trellis/missions/[mission-id]/` with
+A Horizon mission lives at `/home/kyle/projects/trellis/missions/[mission-id]/` with
 its own `brief.md`, `heartbeat-log.md`, `for-kyle.md`, `checkpoint.md`, and
 `artifacts/` directory. Inter-agent handoffs flow through
-`/home/kyle/trellis/handoffs/{outgoing,incoming,archive}/`. When the
+`/home/kyle/projects/trellis/handoffs/{outgoing,incoming,archive}/`. When the
 Greenhouse control plane (Mission 01 deliverable) exists, these files sync
 to `library_entries` rows.
 

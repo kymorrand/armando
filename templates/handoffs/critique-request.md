@@ -1,7 +1,7 @@
 # Critique Request Template
 
 > Produced by Armando when a build is ready for Mr. Owl to test and
-> critique. Written to `/home/kyle/trellis/handoffs/outgoing/` with a ULID
+> critique. Written to `/home/kyle/projects/trellis/handoffs/outgoing/` with a ULID
 > filename alongside a `build_report` artifact. When Greenhouse exists, POST
 > as a `library_entries` row with `kind: critique_request`.
 
@@ -34,7 +34,7 @@
 
 - **Build report:** [path or library ID]
 - **Research brief** (if applicable): [path or library ID]
-- **Mission brief:** `/home/kyle/trellis/missions/[mission-id]/brief.md`
+- **Mission brief:** `/home/kyle/projects/trellis/missions/[mission-id]/brief.md`
 - **Build artifact:** [path, deployed URL, or commit hash]
 - **Repo / branch:** [link]
 
@@ -77,7 +77,7 @@
 
 ## Handoff metadata
 
-- **Response location:** `/home/kyle/trellis/handoffs/incoming/` addressed
+- **Response location:** `/home/kyle/projects/trellis/handoffs/incoming/` addressed
   to `mission-id`
 - **Response template:** `~/armando/templates/handoffs/critique.md`
 - **Armando's fallback if no response:** [what Armando does if Mr. Owl

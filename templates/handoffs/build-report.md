@@ -2,7 +2,7 @@
 
 > Produced by Armando when a build is ready to be tested. Stored as
 > `library_entries` with `kind: build_report`. Written to
-> `/home/kyle/trellis/handoffs/outgoing/` and the mission's
+> `/home/kyle/projects/trellis/handoffs/outgoing/` and the mission's
 > `artifacts/` directory when Greenhouse doesn't exist yet.
 
 ---

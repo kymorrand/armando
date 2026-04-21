@@ -26,7 +26,7 @@ mission is not done.
 7. **Installer templates: `install.sh` AND `install.ps1`** (both, always;
    Linux/Mac and Windows paths diverge)
 8. Any `VERSION` or manifest files
-9. All mission briefs and mission artifacts in `/home/kyle/trellis/missions/`
+9. All mission briefs and mission artifacts in `/home/kyle/projects/trellis/missions/`
 10. `_grove/` indexes and reports
 
 ### Out-of-repo surface (this is what burns)

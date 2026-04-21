@@ -2,7 +2,7 @@
 
 > Produced by Mr. Owl after running a build. Stored as `library_entries`
 > with `kind: critique`. Armando reads incoming copies from
-> `/home/kyle/trellis/handoffs/incoming/`.
+> `/home/kyle/projects/trellis/handoffs/incoming/`.
 
 Three sections are required: Observed, Matches-spec, Falls-short. Plus a
 Recommendation.

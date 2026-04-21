@@ -1,6 +1,6 @@
 # Heartbeat Log Template
 
-> Lives at `/home/kyle/trellis/missions/[mission-id]/heartbeat-log.md`.
+> Lives at `/home/kyle/projects/trellis/missions/[mission-id]/heartbeat-log.md`.
 > Append-only. Armando writes one entry per tick (default 60m cadence).
 > Sub-agents never write here. When Greenhouse exists, entries sync to
 > `library_entries` with `kind: heartbeat`.

@@ -7,7 +7,121 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-### Added
+*(no unreleased changes)*
+
+## [0.3.1]: 2026-04-21
+
+### Governed by
+
+Armando 0.3.0 → 0.3.1 delta audit at
+`/home/kyle/projects/trellis/missions/mission-00-armando-audit/artifacts/armando-0.3.0-to-0.3.1-audit.md`.
+Seven changes surfaced by Mission 01 (Greenhouse v0 build). Mission-00-shaped
+audit; Interactive mode (not Horizon). Approved section-by-section by Kyle.
+
+### Added: Fabrication hardening (sidecar protocol)
+
+- **`<sprint-slug>.verify.json` sidecar.** Sub-agents writing status
+  reports with claimed tool output also write a structured JSON sidecar
+  at `_grove/sprints/`. Schema includes `claim_id`, `command`, `cwd`,
+  `timestamp`, `exit_code`, `stdout_sha256`, `stdout_tail`,
+  `load_bearing`, `replayable`.
+- **Armando's post-dispatch review loop.** Step 1 ("Review their
+  changes") expanded to include: read sidecar; re-run 100% of
+  load-bearing commands + 25% random sample of non-load-bearing;
+  hash-diff captured stdout; verify post-state for `replayable: false`
+  entries. Mismatches classify Yellow (non-load-bearing) or Red
+  (load-bearing → revert + re-dispatch).
+- **Review Checklist** gains new item #8 ("Sidecar verification").
+  Renumbered 9-12.
+- **Sprint-contract template** gains "Verification Artifact" section
+  (load-bearing claim list, replayable rule, schema pointer) and two
+  new Outcome fields (Sidecar verification, Replayed claims).
+- **Scope note.** The behavioral "Never fabricate tool output" rule in
+  project CLAUDE.md continues to govern prose drift; the sidecar is the
+  mechanical gate for load-bearing evidence. Together.
+- **Rollout.** Mission 01 sprints are not retrofitted. Mission 02 is
+  the first mission with sidecar required.
+
+### Added: Vercel preflight rule
+
+- **Three-check preflight** before writing any sprint contract that
+  ends in a Vercel deploy-smoke step: (1) `framework` non-null on the
+  project, (2) `ssoProtection` + `protectionBypass` pairing if SSO is
+  configured, (3) env-var parity across Preview ↔ Production targets.
+- **Sprint-contract template** gains "Preflight" section with three
+  fields + target project ID + preflight timestamp. Findings within
+  Yellow → fix + disclose; findings outside Yellow → queue as Red.
+- Motivating incidents: Q-4 (Vercel SSO wall + silent `framework: null`)
+  and Q-5 post-merge (env-var parity drift).
+
+### Added: Explicit `--target preview` rule
+
+- **"What You Don't Do" rule.** Sub-agents never run `vercel deploy`
+  without `--target preview` explicitly. CLI default is production
+  outside a git-branch context.
+- Sprint-contract template Verification Commands gain a callout.
+- Motivating incident: Sprint 1 accidental prod deploy (inert scaffold
+  behind 401 SSO).
+
+### Added: Queue-wins-on-resume rule
+
+- **"Resuming a session" step 4a.** If `for-kyle.md` header "Last
+  updated" timestamp is newer than the checkpoint's session-end
+  timestamp, OR any Q-[N] item has a newer Kyle response, the queue
+  file wins. Process responses in full, re-evaluate checkpoint's
+  "Next action on resume", void the default action if a response
+  contradicts it.
+- The session-resume flash heartbeat notes whether the rule fired.
+
+### Added: `permitted_write_paths` replaces "mission directory"
+
+- **Mission-brief template** gains "Path scope" section:
+  `permitted_write_paths`, `permitted_read_paths`, `red_paths` as
+  explicit glob arrays.
+- **`agents/armando.md`** Tool Permissions block updated: Green =
+  "within `permitted_read_paths` / `permitted_write_paths`"; Yellow =
+  "outside `permitted_write_paths`"; Red = "`rm -rf` outside
+  `permitted_write_paths`". Replaces the ambiguous "mission directory"
+  phrasing (which was literally wrong for any mission with deliverables
+  in the project repo).
+- **`playbook/tool-envelope-map.md`** table headers + rm rows updated
+  to reference the path variables.
+- **Default behavior preserved** for mission briefs that omit the
+  field: defaults to mission-folder-only, Armando flags the omission
+  in heartbeat 1. 0.3.0-compatible.
+
+### Added: ScheduleWakeup deferral (not a primitive)
+
+- **Cadence rule.** Self-cadence is best-effort until Mission 02
+  lands `sessions` / `coordination_events` + Supabase Realtime. No
+  external heartbeat timer exists yet; tolerance (±10m) is policy,
+  not enforcement. Guidance: do not queue time-sensitive work to a
+  future self-scheduled tick; escalate to `for_kyle` with Priority:
+  hard instead.
+- No new tool or protocol primitive. Documentation-only change in
+  `agents/armando.md` cadence rules.
+
+### Changed: Filesystem paths to canonical location
+
+- **Trellis workspace relocated** from `/home/kyle/trellis/` to
+  `/home/kyle/projects/trellis/`. Matches Mission 01's canonical git
+  repo. Mission-00 audit directory and empty handoffs tree moved;
+  legacy `/home/kyle/trellis/` reduced to a pointer README.
+- **22 path references updated** across 14 files: `CLAUDE.md`,
+  `agents/armando.md`, `commands/spiral.md`, `playbook/rename-missions.md`,
+  `templates/{mission-brief,heartbeat-log,checkpoint,for-kyle-queue}.md`,
+  and all 5 `templates/handoffs/*.md`.
+- **Historical references preserved as audit trail:** `CHANGELOG.md`
+  0.3.0 release notes, `_ivy/reports/handoff-rootstock-2026-04-20.md`.
+  Consistent with the 0.2 → 0.3 "preserve history, update current"
+  pattern.
+- **Versioning block** in `agents/armando.md` updated to reference
+  both the 0.2 → 0.3 and 0.3.0 → 0.3.1 audit documents.
+
+### Added: Mission 00 rename-missions playbook (carry-forward from 0.3.0 tail)
+
+> These additions accumulated in `[Unreleased]` after 0.3.0 shipped and
+> rode forward with 0.3.1.
 
 - **`playbook/rename-missions.md`.** Completion checklist for rename missions.
   Lists every in-repo surface (agent files, commands, skills, templates,
@@ -23,7 +137,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - **CLAUDE.md Conventions bullet** pointing at the rename-missions playbook,
   and a corresponding line in the repo structure section.
 
-### Changed
+### Changed: Residual Thorn references (carry-forward from 0.3.0 tail)
 
 - **`REFERENCES.md`.** Three stale "Thorn" references describing current
   Armando behavior updated to "Armando" (CAID adoption note, Harness Design
@@ -36,11 +150,24 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ### Preserved as audit trail (intentionally not rewritten)
 
-- `CHANGELOG.md` entries documenting the rename itself
+- `CHANGELOG.md` 0.3.0 entries referencing `/home/kyle/trellis/` and Thorn
 - `_ivy/reports/handoff-*.md` historical session artifacts
 - `CLAUDE.md` sentence explaining the Thorn to Armando rename
 - `playbook/rename-missions.md` Mission 00 post-mortem section
 - `~/.claude/agents/thorn.md.bak` (inert; Claude Code does not load `.md.bak`)
+- The 0.2 → 0.3 audit doc at its original path
+
+### Carry-forward to 0.3.2
+
+- When Mission 02 ships the `sessions` / `coordination_events` substrate
+  + Supabase Realtime, revise the "Self-cadence is best-effort" rule in
+  `agents/armando.md` to point at the realized backend timer rather than
+  a planned one.
+- After 3+ Mission 02 sprints with clean sidecar diffs, promote the
+  schema from "calibration" to "stable." If any Red mismatch fires in
+  the first 5 sprints, revisit the schema.
+- Promote the handoff-style `build-report.md` shape from Mission 01 as
+  the canonical template (Mission 01 carry-forward callout).
 
 ## [0.3.0]: 2026-04-20
 

@@ -2,7 +2,7 @@
 
 > Produced by Ivy. Stored as a `library_entries` row with
 > `kind: research_brief`. Armando reads incoming copies from
-> `/home/kyle/trellis/handoffs/incoming/`.
+> `/home/kyle/projects/trellis/handoffs/incoming/`.
 
 The `terminates_in` field determines downstream behavior:
 - `prototype` → hands to Armando → Mr. Owl tests

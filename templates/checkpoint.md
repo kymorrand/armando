@@ -1,7 +1,7 @@
 # Checkpoint Template
 
 > Written (rewritten, not appended) at every session end during a Horizon
-> mission. Lives at `/home/kyle/trellis/missions/[mission-id]/checkpoint.md`.
+> mission. Lives at `/home/kyle/projects/trellis/missions/[mission-id]/checkpoint.md`.
 > Read at the start of every resume. Target: resume the mission within 1-2
 > prompt exchanges from this file alone.
 

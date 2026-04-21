@@ -28,12 +28,12 @@
 
 ## 1. Built-in tools (file and code)
 
-| Tool | Within mission dir | Outside mission dir (within Kyle's filesystem) |
+| Tool | Within `permitted_write_paths` | Outside `permitted_write_paths` (within Kyle's filesystem) |
 |---|---|---|
 | `Read` | Green | Green for project dirs; Yellow for other user data (CLAUDE.md in other projects etc); Red for `.env` / credentials files anywhere |
 | `Grep` | Green | Green for project dirs; Yellow for broad home-dir searches |
 | `Glob` | Green | Green for project dirs; Yellow for broad home-dir globs |
-| `Edit` | Green | Yellow (write outside mission dir is significant; flag) |
+| `Edit` | Green | Yellow (write outside `permitted_write_paths` is significant; flag) |
 | `Write` | Green (including new files) | Yellow; Red if creating files in `~/.claude/` or agent soul paths |
 | `NotebookEdit` | Green | Yellow |
 | `Bash` | See "Bash command specifics" below | See below |
@@ -107,9 +107,9 @@ Bash is a superset. Tier by command class, not tool.
 | Command | Tier | Notes |
 |---|---|---|
 | `sudo <anything>` | **Red** | Never |
-| `rm` of files inside mission dir | Green | |
+| `rm` of files inside `permitted_write_paths` | Green | |
 | `rm` of files inside a project Armando owns | Yellow | |
-| `rm -rf` outside mission dir | **Red** | |
+| `rm -rf` outside `permitted_write_paths` | **Red** | |
 | `chmod` / `chown` on files Armando created | Green | |
 | `chmod` / `chown` on system paths | **Red** | |
 | `kill` / `pkill` on processes Armando started | Green | |

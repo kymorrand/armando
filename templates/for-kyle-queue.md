@@ -1,6 +1,6 @@
 # For-Kyle Queue Template
 
-> Lives at `/home/kyle/trellis/missions/[mission-id]/for-kyle.md`.
+> Lives at `/home/kyle/projects/trellis/missions/[mission-id]/for-kyle.md`.
 > Append-only log of items requiring Kyle's async input during a Horizon
 > mission. Only Armando writes. Kyle responds inline by filling the
 > **Kyle response** field on each item. Resolved items stay in the file;

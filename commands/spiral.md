@@ -77,6 +77,6 @@ When a mission brief with `mode: horizon` is active, the sprint loop above is re
 
 6. **Session end.** Write a final session-end heartbeat, rewrite `checkpoint.md`, write a pointer-style handoff to `~/armando/_ivy/reports/`.
 
-7. **Mission complete.** Produce the deliverable artifact in `/home/kyle/trellis/missions/[id]/artifacts/` and as a handoff in `/home/kyle/trellis/handoffs/outgoing/`. Add Priority: hard item to `for-kyle.md`: "Mission complete, ready for review." Wait for Kyle's acknowledgment.
+7. **Mission complete.** Produce the deliverable artifact in `/home/kyle/projects/trellis/missions/[id]/artifacts/` and as a handoff in `/home/kyle/projects/trellis/handoffs/outgoing/`. Add Priority: hard item to `for-kyle.md`: "Mission complete, ready for review." Wait for Kyle's acknowledgment.
 
 The full protocol lives in `~/armando/agents/armando.md` → "Horizon Mode Protocol". This file is the quick-reference; the constitution is authoritative.

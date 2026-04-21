@@ -1,7 +1,7 @@
 # Research Brief Request Template
 
 > Produced by Armando to request a research brief from Ivy mid-mission.
-> Written to `/home/kyle/trellis/handoffs/outgoing/` with a ULID filename.
+> Written to `/home/kyle/projects/trellis/handoffs/outgoing/` with a ULID filename.
 > When Greenhouse exists, POST as a `library_entries` row with
 > `kind: research_brief_request`.
 
@@ -70,7 +70,7 @@ How Armando will know Ivy's response unblocks the mission.
 
 ## Handoff metadata
 
-- **Response location:** `/home/kyle/trellis/handoffs/incoming/` addressed
+- **Response location:** `/home/kyle/projects/trellis/handoffs/incoming/` addressed
   to `mission-id`
 - **Response template:** `~/armando/templates/handoffs/research-brief.md`
 - **Armando's fallback if no response:** [what Armando does if Ivy doesn't

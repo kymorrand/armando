@@ -5,6 +5,43 @@ All notable changes to Armando are documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 Versioning follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- **`playbook/rename-missions.md`.** Completion checklist for rename missions.
+  Lists every in-repo surface (agent files, commands, skills, templates,
+  playbook, installers, CLAUDE.md, CHANGELOG, VERSION, mission briefs, Grove
+  indexes) and every out-of-repo surface (`~/.bashrc`, `~/.zshrc`,
+  `~/.profile`, `$PROFILE`, fish config, `~/.claude/agents/` symlinks, stray
+  `claude --agent <old-name>` invocations, Claude Code settings.json, running
+  sessions). Provides a ready-to-run grep gauntlet and five acceptance
+  criteria. Includes the Mission 00 post-mortem inline so the rule is
+  self-documenting: `claude --agent <unresolved-name>` silently falls back
+  to plain Claude Code, which is how the Thorn to Armando rename shipped a
+  silent session degradation.
+- **CLAUDE.md Conventions bullet** pointing at the rename-missions playbook,
+  and a corresponding line in the repo structure section.
+
+### Changed
+
+- **`REFERENCES.md`.** Three stale "Thorn" references describing current
+  Armando behavior updated to "Armando" (CAID adoption note, Harness Design
+  review practice, Karpathy Grove pattern).
+- **`playbook/documentation.md`.** CHANGELOG enforcement line updated
+  from "Enforced by Thorn in review" to "Enforced by Armando in review".
+- **`templates/grove-index.md`.** Six "Thorn" references updated to
+  "Armando". This template seeds every new project's Grove, so stale
+  references here propagate on every project init.
+
+### Preserved as audit trail (intentionally not rewritten)
+
+- `CHANGELOG.md` entries documenting the rename itself
+- `_ivy/reports/handoff-*.md` historical session artifacts
+- `CLAUDE.md` sentence explaining the Thorn to Armando rename
+- `playbook/rename-missions.md` Mission 00 post-mortem section
+- `~/.claude/agents/thorn.md.bak` (inert; Claude Code does not load `.md.bak`)
+
 ## [0.3.0]: 2026-04-20
 
 ### Added: Horizon mode

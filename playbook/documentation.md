@@ -14,7 +14,7 @@ Every project Armando works on must have these:
 2. **CHANGELOG.md** (project root) — All notable changes
    - Follows [Keep a Changelog](https://keepachangelog.com/) format
    - Updated by whichever agent completes work
-   - Enforced by Thorn in review — no exceptions
+   - Enforced by Armando in review. No exceptions.
 
 3. **`_grove/`** (project root) — Project vault
    - `reports/` — Garden reports, session summaries

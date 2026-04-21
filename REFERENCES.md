@@ -13,7 +13,7 @@ influences, include: what the source is, what pattern was adopted, and why.
 - **Published:** March 2026
 - **Link:** https://arxiv.org/abs/2603.21489
 - **What it is:** Multi-agent coordination paradigm using centralized task delegation, async execution, and isolated workspaces. 26.7% improvement over single-agent baselines.
-- **Adopted patterns:** Dependency-aware task graphs (Thorn checks for file overlap before parallel dispatch), self-verification before commit, dynamic re-planning after merge.
+- **Adopted patterns:** Dependency-aware task graphs (Armando checks for file overlap before parallel dispatch), self-verification before commit, dynamic re-planning after merge.
 
 ### YC-Bench — Long-Term Planning and Consistent Execution
 - **Authors:** He et al. (Collinear AI)
@@ -37,7 +37,7 @@ influences, include: what the source is, what pattern was adopted, and why.
 - **Published:** March 24, 2026
 - **Link:** https://www.anthropic.com/engineering/harness-design-long-running-apps
 - **What it is:** Three-agent architecture (planner, generator, evaluator) for multi-hour autonomous coding sessions.
-- **Adopted patterns:** Sprint contracts (generator and evaluator negotiate "done" definition before coding), separation of evaluation from generation (Thorn's review should use fresh context with skepticism), file-based inter-agent communication.
+- **Adopted patterns:** Sprint contracts (generator and evaluator negotiate "done" definition before coding), separation of evaluation from generation (Armando's review should use fresh context with skepticism), file-based inter-agent communication.
 
 ---
 
@@ -85,7 +85,7 @@ influences, include: what the source is, what pattern was adopted, and why.
 - **Author:** Andrej Karpathy
 - **Source:** Twitter, April 2026
 - **What it is:** Pattern for LLM-compiled markdown wikis as personal knowledge bases.
-- **Adopted patterns:** Grove as compiled project memory — Thorn maintains indexed, queryable, self-compounding wiki per project.
+- **Adopted patterns:** Grove as compiled project memory. Armando maintains an indexed, queryable, self-compounding wiki per project.
 
 ### Agent Harness Taxonomy
 - **Source:** Dan Hock / Aakash Gupta ("2026 Is Agent Harnesses")

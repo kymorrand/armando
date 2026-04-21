@@ -69,6 +69,7 @@ armando/
 ├── playbook/                  # Operational standards
 │   ├── documentation.md
 │   ├── review-checklist.md
+│   ├── rename-missions.md     # Rename completion checklist (installers + rc files)
 │   └── tool-envelope-map.md   # Horizon mode Green/Yellow/Red mapping
 ├── install.sh                 # Linux/Mac installer
 ├── install.ps1                # Windows installer
@@ -149,3 +150,8 @@ to `library_entries` rows.
   marketing jargon.
 - **CHANGELOG: prepend, never replace.** New entries at the top; all history
   preserved.
+- **Rename missions: run the grep gauntlet before declaring complete.** See
+  `playbook/rename-missions.md`. Installers (`install.sh`, `install.ps1`)
+  and shell rc files (`~/.bashrc`, `~/.zshrc`, `$PROFILE`) are first-class
+  rename targets, not afterthoughts. Mission 00 shipped a silent degradation
+  by skipping this check.

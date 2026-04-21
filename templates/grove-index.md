@@ -1,8 +1,8 @@
 # Grove Index
 
-> This file is maintained by Thorn. It is the compiled memory for this project.
-> Thorn reads this at session start and updates it after every dispatch completion.
-> Human edits are welcome but Thorn owns the maintenance.
+> This file is maintained by Armando. It is the compiled memory for this project.
+> Armando reads this at session start and updates it after every dispatch completion.
+> Human edits are welcome but Armando owns the maintenance.
 >
 > Last updated: [date]
 
@@ -25,12 +25,12 @@
 | Root  | — | — | — |
 | Canopy| — | — | — |
 
-> Updated by Thorn from sprint contract outcomes. Use for sprint planning estimates.
+> Updated by Armando from sprint contract outcomes. Use for sprint planning estimates.
 
 ## Architecture Snapshot
 
-[Brief description of the project's structure — key modules, data flow,
-tech stack. Enough for Thorn to orient a subagent without re-reading
+[Brief description of the project's structure: key modules, data flow,
+tech stack. Enough for Armando to orient a subagent without re-reading
 the entire CLAUDE.md.]
 
 ## Accumulated Rules

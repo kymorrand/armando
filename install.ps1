@@ -85,7 +85,7 @@ function armando {
         `$version = "dev"
     }
     Write-Host ""
-    Write-Host "  🌿 Armando v`$version — The Gardener" -ForegroundColor Green
+    Write-Host "  🌿 Armando v`$version - The Gardener" -ForegroundColor Green
     Write-Host "  Let's go do it, dude." -ForegroundColor DarkGray
     Write-Host ""
 
@@ -94,8 +94,8 @@ function armando {
         & ".venv\Scripts\Activate.ps1"
     }
 
-    # Launch Thorn
-    claude --dangerously-skip-permissions --agent thorn
+    # Launch Armando
+    claude --dangerously-skip-permissions --agent armando
 
     # After session ends: commit and push any handoffs or changes
     if (Test-Path (Join-Path `$armandoRepo ".git")) {

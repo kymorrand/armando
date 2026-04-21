@@ -1,5 +1,5 @@
 #!/bin/bash
-# Armando (The Gardener) — Linux/Mac Installer
+# Armando (The Gardener): Linux/Mac Installer
 # Symlinks agents and commands into Claude Code's global directories
 # and adds the 'armando' command to your shell profile.
 
@@ -59,13 +59,13 @@ fi
 # Check if armando function already exists
 if grep -q "armando()" "$PROFILE" 2>/dev/null; then
     echo ""
-    echo "armando command already exists in $PROFILE — skipping."
+    echo "armando command already exists in $PROFILE. Skipping."
     echo "To update it, remove the existing armando() function from $PROFILE and re-run this installer."
 else
     echo "" >> "$PROFILE"
     cat >> "$PROFILE" << 'ARMANDO_FUNC'
 
-# Armando (The Gardener) — AI development team
+# Armando (The Gardener): AI development team
 armando() {
     # Pull latest agent defs and handoffs before starting
     if [ -d "$HOME/armando/.git" ]; then
@@ -75,7 +75,7 @@ armando() {
     # Version banner
     VERSION=$(cat "$HOME/armando/VERSION" 2>/dev/null || echo "dev")
     echo ""
-    echo "  🌿 Armando v${VERSION} — The Gardener"
+    echo "  🌿 Armando v${VERSION}: The Gardener"
     echo "  Let's go do it, dude."
     echo ""
 
@@ -84,15 +84,15 @@ armando() {
         source .venv/bin/activate
     fi
 
-    # Launch Thorn
-    claude --dangerously-skip-permissions --agent thorn
+    # Launch Armando
+    claude --dangerously-skip-permissions --agent armando
 
     # After session ends: commit and push any handoffs or changes
     if [ -d "$HOME/armando/.git" ]; then
         (cd "$HOME/armando" && \
          git add -A && \
          git diff --cached --quiet 2>/dev/null || \
-         (git commit -m "Session update from $(hostname) — $(date +%Y-%m-%d_%H%M)" --quiet && \
+         (git commit -m "Session update from $(hostname) on $(date +%Y-%m-%d_%H%M)" --quiet && \
           git push --quiet 2>/dev/null)) || true
     fi
 }

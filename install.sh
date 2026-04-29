@@ -75,7 +75,7 @@ armando() {
     # Version banner
     VERSION=$(cat "$HOME/armando/VERSION" 2>/dev/null || echo "dev")
     echo ""
-    echo "  🌿 Armando v${VERSION}: The Gardener"
+    echo "  Armando v${VERSION}: The Gardener"
     echo "  Let's go do it, dude."
     echo ""
 

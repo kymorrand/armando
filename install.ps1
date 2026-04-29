@@ -85,7 +85,7 @@ function armando {
         `$version = "dev"
     }
     Write-Host ""
-    Write-Host "  🌿 Armando v`$version" -ForegroundColor Green
+    Write-Host "  Armando v`$version" -ForegroundColor Green
     Write-Host "  Let's go do it, dude." -ForegroundColor DarkGray
     Write-Host ""
 

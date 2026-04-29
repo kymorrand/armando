@@ -1,5 +1,5 @@
 #!/bin/bash
-# Armando (The Gardener): Linux/Mac Installer
+# Armando: Linux/Mac Installer
 # Symlinks agents and commands into Claude Code's global directories
 # and adds the 'armando' command to your shell profile.
 
@@ -65,7 +65,7 @@ else
     echo "" >> "$PROFILE"
     cat >> "$PROFILE" << 'ARMANDO_FUNC'
 
-# Armando (The Gardener): AI development team
+# Armando: AI development team
 armando() {
     # Pull latest agent defs and handoffs before starting
     if [ -d "$HOME/armando/.git" ]; then

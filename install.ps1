@@ -1,4 +1,4 @@
-# Armando (The Gardener) - Windows PowerShell Installer
+# Armando - Windows PowerShell Installer
 # Symlinks agents and commands into Claude Code global directories
 # and adds the armando command to your PowerShell profile.
 #
@@ -67,7 +67,7 @@ if ($profileContent -match "function armando") {
 } else {
     $funcText = @"
 
-# Armando (The Gardener) - AI development team
+# Armando - AI development team
 function armando {
     # Pull latest agent defs and handoffs before starting
     `$armandoRepo = Join-Path `$HOME "armando"
@@ -85,7 +85,7 @@ function armando {
         `$version = "dev"
     }
     Write-Host ""
-    Write-Host "  🌿 Armando v`$version - The Gardener" -ForegroundColor Green
+    Write-Host "  🌿 Armando v`$version" -ForegroundColor Green
     Write-Host "  Let's go do it, dude." -ForegroundColor DarkGray
     Write-Host ""
 

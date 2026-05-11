@@ -1,0 +1,78 @@
+{
+  "sprint": "sprint-portable-armando",
+  "sub_agent": "root",
+  "completed_at": "2026-05-11T19:59:00Z",
+  "cwd": "/home/kyle/armando",
+  "entries": [
+    {
+      "claim_id": "shellcheck-clean",
+      "command": "shellcheck /home/kyle/armando/bootstrap.sh /home/kyle/armando/uninstall.sh /home/kyle/armando/install.sh",
+      "timestamp": "2026-05-11T19:59:00Z",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "(empty stdout: shellcheck v0.10.0 reported zero findings across all three scripts)",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "dry-run-bootstrap-ok",
+      "command": "ARMANDO_PORTABLE=$TMP/p bash /home/kyle/armando/bootstrap.sh --dry-run",
+      "timestamp": "2026-05-11T19:59:00Z",
+      "exit_code": 0,
+      "stdout_sha256": "731337a9b904b53d82a3f3ae117e9298f4e4ca9a2f207bd4e2bd1cb6d395ee41",
+      "stdout_tail": "[armando]   7. write sentinel-bracketed activation block into /home/kyle/.bashrc\n[armando]   8. print next-step instructions (claude login)",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "idempotent-rc-block",
+      "command": "Run install.sh 3x into a fresh $HOME with default CLAUDE_CONFIG_DIR; count '# >>> armando >>>' in $HOME/.bashrc",
+      "timestamp": "2026-05-11T19:59:00Z",
+      "exit_code": 0,
+      "stdout_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "stdout_tail": "1",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "sentinel-removal",
+      "command": "Seed rc with 'before / sentinel-block / after'; run uninstall.sh --yes; cat the rc",
+      "timestamp": "2026-05-11T19:59:00Z",
+      "exit_code": 0,
+      "stdout_sha256": "29e05ee313594dc4806022f4669d6eeb5b548bafabea4b69b5ce1c10f2bd3811",
+      "stdout_tail": "before\nafter",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "symlink-safety",
+      "command": "Seed CLAUDE_CONFIG_DIR/agents with one armando symlink and one external symlink; run uninstall.sh --yes; ls the agents dir",
+      "timestamp": "2026-05-11T19:59:00Z",
+      "exit_code": 0,
+      "stdout_sha256": "d959ee1d87d95d84fc1d7d83aace275c8798ff4bceab2ce07c247db061ac343c",
+      "stdout_tail": "x.md",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "no-em-dashes",
+      "command": "grep -nP '[–—]' /home/kyle/armando/bootstrap.sh /home/kyle/armando/uninstall.sh /home/kyle/armando/install.sh /home/kyle/armando/CLAUDE.md",
+      "timestamp": "2026-05-11T19:59:00Z",
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "(empty stdout: grep found zero matches; exit 1 is the success state)",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "version-bumped",
+      "command": "cat /home/kyle/armando/VERSION",
+      "timestamp": "2026-05-11T19:59:00Z",
+      "exit_code": 0,
+      "stdout_sha256": "511a100eedfb9ea66441e5d506392dba2d8aa290f98c4c544c70ae75ec3c3396",
+      "stdout_tail": "0.3.2",
+      "load_bearing": true,
+      "replayable": true
+    }
+  ]
+}

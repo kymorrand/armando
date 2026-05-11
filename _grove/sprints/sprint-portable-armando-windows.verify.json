@@ -1,0 +1,98 @@
+{
+  "sprint": "sprint-portable-armando-windows",
+  "sub_agent": "root",
+  "completed_at": "2026-05-11T16:30:00-04:00",
+  "cwd": "/home/kyle/armando",
+  "entries": [
+    {
+      "claim_id": "pwsh-parse-ok",
+      "command": "pwsh -NoProfile -Command \"$ErrorActionPreference='Stop'; $null = [System.Management.Automation.Language.Parser]::ParseFile('/home/kyle/armando/bootstrap.ps1', [ref]$null, [ref]$null); $null = [System.Management.Automation.Language.Parser]::ParseFile('/home/kyle/armando/uninstall.ps1', [ref]$null, [ref]$null); $null = [System.Management.Automation.Language.Parser]::ParseFile('/home/kyle/armando/install.ps1', [ref]$null, [ref]$null); Write-Output 'parse-ok'\"",
+      "timestamp": "2026-05-11T16:30:00-04:00",
+      "exit_code": null,
+      "stdout_sha256": null,
+      "stdout_tail": "SKIPPED on Linux dev host: pwsh is not installed and sudo is unavailable to apt-install it. Kyle: on the Win11 box, run the same one-liner with the local paths (or just `powershell -ExecutionPolicy Bypass -File .\\bootstrap.ps1 -DryRun` which exercises the full parser before any disk writes). All three files use Set-StrictMode Latest + $ErrorActionPreference='Stop' so any parse error surfaces immediately.",
+      "load_bearing": true,
+      "replayable": false
+    },
+    {
+      "claim_id": "psscriptanalyzer-clean",
+      "command": "pwsh -NoProfile -Command \"Invoke-ScriptAnalyzer -Path /home/kyle/armando/bootstrap.ps1,/home/kyle/armando/uninstall.ps1,/home/kyle/armando/install.ps1 -Severity Warning\"",
+      "timestamp": "2026-05-11T16:30:00-04:00",
+      "exit_code": null,
+      "stdout_sha256": null,
+      "stdout_tail": "SKIPPED on Linux dev host: pwsh + PSScriptAnalyzer unavailable. Kyle: on the Win11 box run `Install-Module PSScriptAnalyzer -Scope CurrentUser -Force` (one time) then the command above. Known minor verb caveats: `Stop-WithError` is a custom helper using a non-approved verb (PSAvoidUsingCmdletAliases / PSUseApprovedVerbs at Information severity, not Warning). Expect zero Warning+ findings.",
+      "load_bearing": true,
+      "replayable": false
+    },
+    {
+      "claim_id": "no-em-dashes",
+      "command": "grep -nP '[–—]' /home/kyle/armando/bootstrap.ps1 /home/kyle/armando/uninstall.ps1 /home/kyle/armando/install.ps1 /home/kyle/armando/CLAUDE.md /home/kyle/armando/CHANGELOG.md",
+      "timestamp": "2026-05-11T16:30:00-04:00",
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "(empty stdout: grep found zero matches across all 5 files; exit 1 is the no-match success state)",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "sentinel-present-bootstrap-begin",
+      "command": "grep -q '# >>> armando >>>' /home/kyle/armando/bootstrap.ps1",
+      "timestamp": "2026-05-11T16:30:00-04:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "(empty stdout: -q is silent; exit 0 confirms the begin marker is present)",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "sentinel-present-bootstrap-end",
+      "command": "grep -q '# <<< armando <<<' /home/kyle/armando/bootstrap.ps1",
+      "timestamp": "2026-05-11T16:30:00-04:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "(empty stdout: -q is silent; exit 0 confirms the end marker is present)",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "sentinel-present-install",
+      "command": "grep -q '# >>> armando >>>' /home/kyle/armando/install.ps1",
+      "timestamp": "2026-05-11T16:30:00-04:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "(empty stdout: -q is silent; exit 0 confirms the begin marker is present in install.ps1)",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "version-bumped",
+      "command": "cat /home/kyle/armando/VERSION",
+      "timestamp": "2026-05-11T16:30:00-04:00",
+      "exit_code": 0,
+      "stdout_sha256": "a0dc8325e2fbe558e09bf7d61260ca378151b0a3f875dd8b46ecd3693e34c10b",
+      "stdout_tail": "0.3.3",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "node-sha-source",
+      "command": "curl -fsSL https://nodejs.org/dist/v20.18.1/SHASUMS256.txt | grep 'node-v20.18.1-win-x64.zip'",
+      "timestamp": "2026-05-11T16:30:00-04:00",
+      "exit_code": 0,
+      "stdout_sha256": "3d1e2bc9700134c003537b28d906f2894ac7808856be18019a9766fcb0aa2875",
+      "stdout_tail": "56e5aacdeee7168871721b75819ccacf2367de8761b78eaceacdecd41e04ca03  node-v20.18.1-win-x64.zip",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "changelog-prepended",
+      "command": "head -15 /home/kyle/armando/CHANGELOG.md | grep -E '^## \\[0\\.3\\.'",
+      "timestamp": "2026-05-11T16:30:00-04:00",
+      "exit_code": 0,
+      "stdout_sha256": null,
+      "stdout_tail": "## [0.3.3]: 2026-05-11 appears above ## [0.3.2]: 2026-05-11; verified visually post-edit",
+      "load_bearing": false,
+      "replayable": true
+    }
+  ]
+}

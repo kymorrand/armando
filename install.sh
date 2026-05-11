@@ -1,15 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Armando: Linux/Mac Installer
-# Symlinks agents and commands into Claude Code's global directories
+# Symlinks agents and commands into Claude Code's config directories
 # and adds the 'armando' command to your shell profile.
+#
+# Honors $CLAUDE_CONFIG_DIR (Claude Code's documented relocation env var).
+# When unset, defaults to $HOME/.claude to preserve traditional behavior.
 
-set -e
+set -euo pipefail
 
 ARMANDO_DIR="$(cd "$(dirname "$0")" && pwd)"
-CLAUDE_AGENTS_DIR="$HOME/.claude/agents"
-CLAUDE_COMMANDS_DIR="$HOME/.claude/commands"
+CLAUDE_CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+CLAUDE_AGENTS_DIR="$CLAUDE_CONFIG_DIR/agents"
+CLAUDE_COMMANDS_DIR="$CLAUDE_CONFIG_DIR/commands"
 
 echo "Installing Armando from: $ARMANDO_DIR"
+echo "Target CLAUDE_CONFIG_DIR: $CLAUDE_CONFIG_DIR"
 echo ""
 
 # --- Create Claude Code directories ---
@@ -47,7 +52,19 @@ for cmd in "$ARMANDO_DIR"/commands/*.md; do
 done
 
 # --- Add armando command to shell profile ---
-SHELL_NAME=$(basename "$SHELL")
+# Portable installs handle their own activation block via bootstrap.sh,
+# so only write the traditional block when CLAUDE_CONFIG_DIR is unset
+# (or points at the default $HOME/.claude).
+if [ "$CLAUDE_CONFIG_DIR" != "$HOME/.claude" ]; then
+    echo ""
+    echo "CLAUDE_CONFIG_DIR is non-default; skipping shell profile edit."
+    echo "(The portable bootstrap manages its own activation block.)"
+    echo ""
+    echo "Done."
+    exit 0
+fi
+
+SHELL_NAME=$(basename "${SHELL:-bash}")
 if [ "$SHELL_NAME" = "zsh" ]; then
     PROFILE="$HOME/.zshrc"
 elif [ "$SHELL_NAME" = "bash" ]; then
@@ -56,16 +73,16 @@ else
     PROFILE="$HOME/.profile"
 fi
 
-# Check if armando function already exists
-if grep -q "armando()" "$PROFILE" 2>/dev/null; then
+# Idempotent: only one sentinel block, ever.
+if grep -qF "# >>> armando >>>" "$PROFILE" 2>/dev/null; then
     echo ""
-    echo "armando command already exists in $PROFILE. Skipping."
-    echo "To update it, remove the existing armando() function from $PROFILE and re-run this installer."
+    echo "armando block already present in $PROFILE. Skipping."
+    echo "Remove the block between '# >>> armando >>>' and '# <<< armando <<<' and re-run to refresh."
 else
-    echo "" >> "$PROFILE"
-    cat >> "$PROFILE" << 'ARMANDO_FUNC'
-
-# Armando: AI development team
+    {
+        printf '\n%s\n' "# >>> armando >>>"
+        cat <<'ARMANDO_FUNC'
+# Armando: AI development team. Removable via uninstall.sh.
 armando() {
     # Pull latest agent defs and handoffs before starting
     if [ -d "$HOME/armando/.git" ]; then
@@ -81,11 +98,12 @@ armando() {
 
     # Activate venv if present
     if [ -f ".venv/bin/activate" ]; then
-        source .venv/bin/activate
+        # shellcheck disable=SC1091
+        . .venv/bin/activate
     fi
 
     # Launch Armando
-    claude --dangerously-skip-permissions --agent armando
+    claude --dangerously-skip-permissions --agent armando "$@"
 
     # After session ends: commit and push any handoffs or changes
     if [ -d "$HOME/armando/.git" ]; then
@@ -97,8 +115,10 @@ armando() {
     fi
 }
 ARMANDO_FUNC
+        printf '%s\n' "# <<< armando <<<"
+    } >> "$PROFILE"
     echo ""
-    echo "Added armando command to $PROFILE"
+    echo "Added armando block to $PROFILE"
 fi
 
 echo ""

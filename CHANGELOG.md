@@ -9,6 +9,125 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 *(no unreleased changes)*
 
+## [0.3.3]: 2026-05-11
+
+### Added: Portable install mode for Windows 11
+
+Armando's portable install now has native Windows 11 parity. Same prefix
+shape as the Linux/Mac portable build (`$env:USERPROFILE\armando-portable\`
+with `node\`, `claude\`, `armando\`, `.claude-home\`), same sentinel
+bracketed activation block, same teardown discipline. No admin / no UAC
+required: per file links use NTFS hardlinks, with a plain-copy fallback for
+cross volume installs.
+
+- **`bootstrap.ps1` (NEW).** Windows equivalent of `bootstrap.sh`. Downloads
+  the pinned Node 20.18.1 `win-x64.zip` from nodejs.org, verifies the
+  SHA-256 (`56e5aacd...4ca03`), extracts it into the prefix, runs
+  `npm install --prefix` to land `@anthropic-ai/claude-code` locally,
+  clones the armando repo (or `git pull`s an existing checkout), invokes
+  `install.ps1` with `$env:CLAUDE_CONFIG_DIR` redirected into the prefix,
+  persists `CLAUDE_CONFIG_DIR` at user scope via
+  `[Environment]::SetEnvironmentVariable(..., 'User')`, and writes a
+  sentinel bracketed block to `$PROFILE.CurrentUserAllHosts` (so both
+  Windows PowerShell 5.1 and PowerShell 7+ pick it up). The block self
+  guards: if `$env:ARMANDO_PORTABLE\node\node.exe` is missing it silently
+  no-ops, so the profile block survives a `Remove-Item -Recurse` of the
+  prefix without breaking shell startup. `-DryRun` switch prints the plan
+  and writes nothing outside `$env:TEMP`. Idempotent: rerunning skips
+  already extracted Node, already installed Claude Code, and refuses to
+  duplicate the profile block.
+- **`uninstall.ps1` (NEW).** Inverse of bootstrap. Per file in
+  `$CLAUDE_CONFIG_DIR\agents\` and `\commands\`: removes the entry if it
+  is a reparse point pointing into the armando repo, or (for hardlink /
+  copy fallbacks that carry no link metadata) if its SHA-256 matches the
+  same named file in `<repo>\agents\` or `<repo>\commands\`. Anything
+  else is left alone. Strips both `# >>> armando >>>` and
+  `# >>> armando-portable >>>` sentinel blocks from
+  `$PROFILE.CurrentUserAllHosts` and `$PROFILE.CurrentUserCurrentHost`,
+  writes a `.armando-bak` backup beside each modified profile. Clears the
+  user scope `CLAUDE_CONFIG_DIR` env var only when its value points into
+  the portable prefix being removed (custom values left intact). Prompts
+  before `Remove-Item -Recurse` of the prefix; `-Yes` switch bypasses for
+  scripted teardown. Refuses to act on a prefix of `""`, `"\"`, `"$HOME"`,
+  `$env:USERPROFILE`, or a drive root.
+- **`install.ps1` (EDIT).** Now honors `$env:CLAUDE_CONFIG_DIR` (falls back
+  to `$HOME\.claude` when unset, so existing users see no behavior change).
+  Per file agent / command links switched from `SymbolicLink` (which
+  required admin on Windows) to `HardLink`, with a plain `Copy-Item`
+  fallback when source and target sit on different volumes. The appended
+  `armando` function is now wrapped in `# >>> armando >>>` /
+  `# <<< armando <<<` markers so `uninstall.ps1` can remove it
+  deterministically. When `$env:CLAUDE_CONFIG_DIR` is non-default the
+  script skips the profile edit entirely; `bootstrap.ps1` owns that block.
+- **`CLAUDE.md` (EDIT).** Expanded the "Portable install" section with a
+  Windows 11 subsection (one-liner bootstrap, auth step, run command,
+  override, dry-run, teardown).
+
+### Notes
+
+- Cross-version safe: scripts run under Windows PowerShell 5.1 (built into
+  Windows 11) and PowerShell 7+. No `?:` ternary, no `??` null-coalesce.
+- All three `.ps1` files start with `Set-StrictMode -Version Latest` and
+  `$ErrorActionPreference = 'Stop'`.
+- No `Developer Mode` requirement. The portable install is fully usable on
+  a stock Windows 11 user account with only Git for Windows and an
+  internet connection as prerequisites.
+
+## [0.3.2]: 2026-05-11
+
+### Added: Portable install mode
+
+Armando can now be installed on a bare machine that has only `curl`, `git`,
+and `bash`. The portable bootstrap builds a self-contained prefix at
+`$ARMANDO_PORTABLE` (default `~/armando-portable/`) containing a local Node
+20.18.1 (pinned by SHA-256), a non-global Claude Code CLI install
+(`npm install --prefix`, no `-g`, no sudo), the armando repo, and a
+`.claude-home/` directory exposed to Claude Code via `CLAUDE_CONFIG_DIR`.
+Nothing lands in the host `~/.claude/`.
+
+- **`bootstrap.sh` (NEW).** Detects platform (`linux-x64`, `darwin-x64`,
+  `darwin-arm64`), downloads and SHA-256-verifies the official Node tarball
+  from nodejs.org, installs `@anthropic-ai/claude-code` locally, clones
+  the armando repo, invokes the existing `install.sh` with `CLAUDE_CONFIG_DIR`
+  redirected into the prefix, and writes a sentinel-bracketed activation
+  block to `.bashrc` / `.zshrc` / `.profile`. The activation block self-guards:
+  if `$ARMANDO_PORTABLE/node/bin/node` is missing it silently no-ops, so the
+  rc block survives an aggressive `rm -rf` of the prefix without breaking
+  shell startup. `--dry-run` flag prints the plan and writes nothing outside
+  `/tmp`. Idempotent: rerunning skips already-downloaded components and
+  refuses to duplicate the rc block.
+- **`uninstall.sh` (NEW).** Inverse of bootstrap. Removes only symlinks
+  under `$CLAUDE_CONFIG_DIR/agents/` and `$CLAUDE_CONFIG_DIR/commands/`
+  whose `readlink -f` target resolves into the armando repo root; foreign
+  symlinks and regular files are preserved. Strips both
+  `# >>> armando >>>` and `# >>> armando-portable >>>` sentinel blocks from
+  `~/.bashrc`, `~/.zshrc`, and `~/.profile` (also honors `$ARMANDO_RC`),
+  with a `.armando-bak` backup beside each modified file. Prompts before
+  `rm -rf` of the portable prefix; `--yes` bypasses for scripted teardown.
+  Refuses to act on a portable prefix of `""`, `"/"`, or `"$HOME"`.
+  Handles both portable and traditional installs; traditional mode leaves
+  `~/armando` itself in place and only unlinks plus unhooks the rc block.
+- **`install.sh` (EDIT).** Now honors `$CLAUDE_CONFIG_DIR` instead of
+  hardcoding `$HOME/.claude` (falls back to `$HOME/.claude` when unset, so
+  existing users see no behavior change). The appended `armando()` shell
+  function is wrapped in sentinel markers (`# >>> armando >>>` /
+  `# <<< armando <<<`) so `uninstall.sh` can remove it deterministically with
+  `awk`. When `$CLAUDE_CONFIG_DIR` is non-default (portable install path)
+  the script skips the rc-block write entirely; `bootstrap.sh` owns that
+  block.
+- **`CLAUDE.md` (EDIT).** New "Portable install" section under "Installation"
+  documenting the one-liner bootstrap, the `--dry-run` plan check, the
+  `ARMANDO_PORTABLE` override, and the `uninstall.sh` teardown command.
+
+### Notes
+
+- Linux x86_64 verified. Darwin x64 and arm64 plumbing is in place
+  (platform detection, pinned SHA-256, `tar -xJ` extraction) but not
+  smoke-tested on macOS hardware in this sprint. Flag for Armando on
+  first Mac install.
+- Windows portable bootstrap is a follow-up. `install.ps1` unchanged in
+  this release.
+
 ## [0.3.1]: 2026-04-21
 
 ### Governed by

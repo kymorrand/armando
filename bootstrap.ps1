@@ -369,7 +369,7 @@ function armando {
         `$version = 'dev'
     }
     Write-Host ''
-    Write-Host "  Armando v`$version: The Gardener (portable)" -ForegroundColor Green
+    Write-Host "  Armando v`${version}: The Gardener (portable)" -ForegroundColor Green
     Write-Host "  Let's go do it, dude." -ForegroundColor DarkGray
     Write-Host ''
     if (Test-Path -LiteralPath '.venv\Scripts\Activate.ps1') {

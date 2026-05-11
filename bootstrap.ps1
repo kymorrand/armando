@@ -323,16 +323,21 @@ function Write-ActivationBlock {
         [string]$Prefix
     )
 
-    $parent = Split-Path -LiteralPath $ProfilePath -Parent
-    if (-not (Test-Path -LiteralPath $parent)) {
-        New-Item -ItemType Directory -Path $parent -Force | Out-Null
-    }
-    if (-not (Test-Path -LiteralPath $ProfilePath)) {
-        New-Item -ItemType File -Path $ProfilePath -Force | Out-Null
+    # Use direct .NET file APIs throughout. Cmdlet parameter binding under
+    # Windows PowerShell 5.1 + StrictMode Latest has fired AmbiguousParameterSet
+    # in the wild for New-Item/Add-Content combinations here; .NET I/O bypasses
+    # cmdlet param sets entirely and is fully unambiguous.
+
+    $parent = [System.IO.Path]::GetDirectoryName($ProfilePath)
+    if ($parent -and -not [System.IO.Directory]::Exists($parent)) {
+        [System.IO.Directory]::CreateDirectory($parent) | Out-Null
     }
 
-    $existing = Get-Content -LiteralPath $ProfilePath -Raw -ErrorAction SilentlyContinue
-    if ($null -ne $existing -and $existing -match [regex]::Escape($MarkerBegin)) {
+    $existing = ''
+    if ([System.IO.File]::Exists($ProfilePath)) {
+        $existing = [System.IO.File]::ReadAllText($ProfilePath)
+    }
+    if ($existing -and ($existing -match [regex]::Escape($MarkerBegin))) {
         Write-Log "Activation block already present in $ProfilePath (idempotent skip)."
         return
     }
@@ -388,7 +393,12 @@ function armando {
 $MarkerEnd
 "@
 
-    Add-Content -LiteralPath $ProfilePath -Value $block
+    $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+    if ([System.IO.File]::Exists($ProfilePath)) {
+        [System.IO.File]::AppendAllText($ProfilePath, $block, $utf8NoBom)
+    } else {
+        [System.IO.File]::WriteAllText($ProfilePath, $block, $utf8NoBom)
+    }
     Write-Log "Wrote activation block to $ProfilePath"
 }
 

@@ -1,0 +1,61 @@
+{
+  "sprint": "sprint-armando-site",
+  "sub_agent": "bloom",
+  "completed_at": "2026-05-12T00:00:00-04:00",
+  "cwd": "/home/kyle/projects/armando-site",
+  "verified_by": "armando",
+  "verified_at": "2026-05-12T00:00:00-04:00",
+  "entries": [
+    {
+      "claim_id": "npm-build-ok",
+      "command": "npm run build",
+      "timestamp": "2026-05-12T00:00:00-04:00",
+      "exit_code": 0,
+      "stdout_sha256": "a9c983a719c5272c5f35dba5caf7abc9d7203b21d08e97ddb69796d815efcf3f",
+      "stdout_tail": "Route (app)      Revalidate  Expire\nâ”Œ â—‹ /                    1h      1y\nâ””  â—‹ /_not-found\nâ—‹  (Static)  prerendered as static content",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "lint-clean",
+      "command": "npm run lint",
+      "timestamp": "2026-05-12T00:00:00-04:00",
+      "exit_code": 0,
+      "stdout_sha256": "ff4e13e14c746d80fc6b0fe6912ffb623900324808edb45101d9fab459092f4d",
+      "stdout_tail": "> armando-site@0.1.0 lint\n> eslint .",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "dev-server-200",
+      "command": "curl -sf http://localhost:3000",
+      "timestamp": "2026-05-12T00:00:00-04:00",
+      "exit_code": 0,
+      "stdout_sha256": "n/a-binary-html-152450-bytes",
+      "stdout_tail": "200 OK after 1s; page size 152450 bytes",
+      "load_bearing": true,
+      "replayable": false,
+      "post_state_check": "dev server bound to :3000 and returned HTTP 200 on /"
+    },
+    {
+      "claim_id": "changelog-rendered",
+      "command": "grep -c '0.3.3' /tmp/page.html",
+      "timestamp": "2026-05-12T00:00:00-04:00",
+      "exit_code": 0,
+      "stdout_sha256": "n/a-count-only",
+      "stdout_tail": "3 occurrences of '0.3.3' (proves GitHub CHANGELOG fetch + render path)",
+      "load_bearing": true,
+      "replayable": true
+    },
+    {
+      "claim_id": "no-em-dashes",
+      "command": "grep -rP '[–—]' app components lib README.md",
+      "timestamp": "2026-05-12T00:00:00-04:00",
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "(empty: zero matches, exit 1 = no em dashes found)",
+      "load_bearing": true,
+      "replayable": true
+    }
+  ]
+}

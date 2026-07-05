@@ -9,6 +9,19 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 *(no unreleased changes)*
 
+## Repository Frozen — 2026-07-05 (tag: `claude-code-final`)
+
+Armando's Claude-Code-era — Horizon mode, hand-authored mission briefs, the
+sidecar/checkpoint protocol — is frozen here. Trellis (Armando 0.4) replaces it:
+persistent LangGraph threads instead of checkpoint files, LangSmith traces instead
+of heartbeat prose, Discord/Linear message-queue injection instead of a for-Kyle
+queue file. Full account of what worked, what didn't, and why in the
+[retrospective](https://github.com/mirror-factory/trellis/blob/main/docs/2026-07-03%20-%20Armando%20Retrospective%20(0.1%20to%200.3.3).md).
+
+The portable/offline install path (`INSTALLATION.md`) stays documented and
+supported for bare-machine use. `_ivy/`'s handoff archive is left as-is — folding
+it into a Library is week-1 Trellis scope, not part of this freeze.
+
 ## [0.3.3]: 2026-05-11
 
 ### Added: Portable install mode for Windows 11
